@@ -16,7 +16,7 @@ export function HeroAnimated({ tagline }: HeroAnimatedProps) {
       <div className="hero-title-container">
         <h1 className="hero-title-main">
           <motion.span
-            className="block overflow-hidden"
+            className="block overflow-hidden hero-title-line"
             initial={{ opacity: 0, y: 55 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
@@ -24,7 +24,7 @@ export function HeroAnimated({ tagline }: HeroAnimatedProps) {
             <span className="hero-word-primary">ALL-STAR</span>
           </motion.span>
           <motion.span
-            className="block overflow-hidden"
+            className="block overflow-hidden hero-title-line"
             initial={{ opacity: 0, y: 55 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}

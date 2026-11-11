@@ -280,6 +280,10 @@ a {
   margin: 0;
 }
 
+.hero-title-line:first-child {
+  margin-bottom: 10px;
+}
+
 .hero-word-primary {
   color: var(--cream-white);
 }
@@ -3250,6 +3254,10 @@ dialog.asd-dialog--confirm::backdrop {
     letter-spacing: -0.03em !important;
   }
 
+  .hero-title-line:first-child {
+    margin-bottom: 6px !important;
+  }
+
   .hero-tagline-clean {
     font-size: 13.5px !important;
     line-height: 1.45 !important;
@@ -3766,6 +3774,10 @@ dialog.asd-dialog--confirm::backdrop {
   .hero-title-main {
     font-size: 46px !important;
     line-height: 0.86 !important;
+  }
+
+  .hero-title-line:first-child {
+    margin-bottom: 5px !important;
   }
 
   .theme-yellow-title {
