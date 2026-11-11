@@ -20,6 +20,14 @@ export const metadata: Metadata = {
     'Debate Timer',
     'Chronograph',
   ],
+  icons: {
+    icon: [
+      { url: '/assets/logo-white.png', sizes: 'any' },
+      { url: '/assets/logo-white.png', type: 'image/png' },
+    ],
+    shortcut: '/assets/logo-white.png',
+    apple: '/assets/logo-white.png',
+  },
   openGraph: {
     title: 'All-Star Debate IV (ASD IV 2026) — The Great Debaters ENSA Fès',
     description:
@@ -36,6 +44,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" type="image/png" href="/assets/logo-white.png" />
+        <link rel="shortcut icon" href="/assets/logo-white.png" />
+        <link rel="apple-touch-icon" href="/assets/logo-white.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
