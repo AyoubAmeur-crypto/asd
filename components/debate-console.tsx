@@ -185,6 +185,7 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
 
   const resetDialogRef = useRef<HTMLDialogElement | null>(null);
   const stageDialogRef = useRef<HTMLDialogElement | null>(null);
+  const scrollPositionRef = useRef<number>(0);
   const tabRefs = useRef<Record<LanguageId, HTMLButtonElement | null>>({
     english: null,
     french: null,
@@ -450,6 +451,10 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
   }
 
   function openStageProjection(debaterId?: string) {
+    if (typeof window !== 'undefined') {
+      scrollPositionRef.current = window.scrollY;
+    }
+
     const fallbackId =
       debaterId ??
       sections
@@ -467,25 +472,31 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
   function closeStageProjection() {
     stageDialogRef.current?.close('close');
     setFocusedSpeakerId(null);
+
+    // Keep user exactly in the timer section on the landing page
+    if (!isStandalonePage && typeof window !== 'undefined') {
+      requestAnimationFrame(() => {
+        const timerSection = document.getElementById('timer');
+        if (timerSection) {
+          timerSection.scrollIntoView({ behavior: 'instant', block: 'nearest' });
+        } else if (scrollPositionRef.current > 0) {
+          window.scrollTo({ top: scrollPositionRef.current, behavior: 'instant' });
+        }
+      });
+    }
   }
 
   // Complete background scroll lock when Stage Projection modal is active
+  // without resetting page scroll position to the top
   useEffect(() => {
     if (!focusedSpeakerId) return;
 
+    const savedScroll = scrollPositionRef.current || (typeof window !== 'undefined' ? window.scrollY : 0);
     const prevBodyOverflow = document.body.style.overflow;
     const prevBodyTouchAction = document.body.style.touchAction;
-    const prevBodyOverscroll = document.body.style.overscrollBehavior;
-    const prevHtmlOverflow = document.documentElement.style.overflow;
-    const prevHtmlTouchAction = document.documentElement.style.touchAction;
-    const prevHtmlOverscroll = document.documentElement.style.overscrollBehavior;
 
     document.body.style.overflow = 'hidden';
     document.body.style.touchAction = 'none';
-    document.body.style.overscrollBehavior = 'none';
-    document.documentElement.style.overflow = 'hidden';
-    document.documentElement.style.touchAction = 'none';
-    document.documentElement.style.overscrollBehavior = 'none';
 
     // Prevent touch scrolling bleed on mobile / iOS
     const preventScrollBleed = (e: TouchEvent) => {
@@ -495,18 +506,32 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
       }
     };
 
+    const preventWheelBleed = (e: WheelEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target?.closest('.stage-modal-inner')) {
+        e.preventDefault();
+      }
+    };
+
     window.addEventListener('touchmove', preventScrollBleed, { passive: false });
+    window.addEventListener('wheel', preventWheelBleed, { passive: false });
 
     return () => {
       document.body.style.overflow = prevBodyOverflow;
       document.body.style.touchAction = prevBodyTouchAction;
-      document.body.style.overscrollBehavior = prevBodyOverscroll;
-      document.documentElement.style.overflow = prevHtmlOverflow;
-      document.documentElement.style.touchAction = prevHtmlTouchAction;
-      document.documentElement.style.overscrollBehavior = prevHtmlOverscroll;
       window.removeEventListener('touchmove', preventScrollBleed);
+      window.removeEventListener('wheel', preventWheelBleed);
+
+      // Restore exact scroll position so user remains in the timer section
+      if (!isStandalonePage && typeof window !== 'undefined') {
+        requestAnimationFrame(() => {
+          if (savedScroll > 0) {
+            window.scrollTo({ top: savedScroll, behavior: 'instant' as ScrollBehavior });
+          }
+        });
+      }
     };
-  }, [focusedSpeakerId]);
+  }, [focusedSpeakerId, isStandalonePage]);
 
   const selectedSection = sections.find((s) => s.id === active) ?? sections[0];
   const selectedLangMeta = LANGUAGES.find((l) => l.id === active) ?? LANGUAGES[0];
@@ -579,11 +604,12 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
             <div className="console-toolbar" role="group" aria-label="Organizer console controls">
               <button
                 type="button"
-                className="toolbar-btn"
+                className="toolbar-btn toolbar-btn--highlight"
                 onClick={() => openStageProjection()}
+                title="Expand stage chronometer into full podium projection"
               >
                 <Maximize2 size={15} aria-hidden="true" />
-                <span>STAGE PROJECTION</span>
+                <span>EXPAND TIMER</span>
               </button>
 
               <button
@@ -611,9 +637,14 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
               </button>
 
               {!isStandalonePage && (
-                <Link href="/timer" className="toolbar-btn toolbar-btn--highlight">
-                  <span>EXPAND TIMER</span>
-                  <ArrowRight size={14} aria-hidden="true" />
+                <Link
+                  href="/timer"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="toolbar-btn"
+                  title="Open dedicated standalone timer in a new tab"
+                >
+                  <span>STANDALONE TAB ↗</span>
                 </Link>
               )}
             </div>
@@ -959,21 +990,17 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
                 <span className="stage-pill">
                   {focusedMeta.langMeta.order} // {focusedMeta.langMeta.label.toUpperCase()} ({focusedMeta.langMeta.native})
                 </span>
-                <button
-                  type="button"
-                  className={`stage-pill stage-pill--mode-toggle ${focusedMeta.debater.speechMode === 'reply' ? 'is-reply' : ''}`}
+                <span
+                  className="stage-pill stage-pill--side"
                   onClick={() => handleToggleSpeechMode(active, focusedMeta.debater.id)}
                   title="Click to toggle speech mode (8M Standard / 4M Reply)"
+                  style={{ cursor: 'pointer' }}
                 >
                   {focusedMeta.debater.side === 'for'
                     ? '+ GOVERNMENT'
                     : '− OPPOSITION'}{' '}
-                  · SPEAKER 0{focusedMeta.debater.position} ·{' '}
-                  <span className="stage-pill-mode-label">
-                    {focusedMeta.debater.speechMode === 'reply' ? 'REPLY (4M)' : 'STANDARD (8M)'}
-                  </span>{' '}
-                  ⇄
-                </button>
+                  · SPEAKER 0{focusedMeta.debater.position} ({focusedMeta.debater.speechMode.toUpperCase()})
+                </span>
               </div>
               <button
                 type="button"
@@ -987,28 +1014,14 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
 
             <div className="stage-modal-body">
               <div className="stage-speaker-info">
-                <div className="stage-kicker-row">
-                  <span className="stage-kicker">ACTIVE PODIUM CHRONOGRAPH</span>
-                  <button
-                    type="button"
-                    className={`stage-mode-toggle-btn ${focusedMeta.debater.speechMode === 'reply' ? 'is-reply' : ''}`}
-                    onClick={() => handleToggleSpeechMode(active, focusedMeta.debater.id)}
-                    title="Click to toggle between 8M Standard Speech and 4M Reply Speech"
-                  >
-                    <Clock size={11} aria-hidden="true" />
-                    <span>{focusedMeta.debater.speechMode === 'reply' ? 'REPLY (4M)' : 'STANDARD (8M)'}</span>
-                    <span className="stage-mode-arrow">⇄</span>
-                  </button>
-                </div>
+                <span className="stage-kicker">ACTIVE PODIUM CHRONOGRAPH</span>
                 <h3 id={`${baseId}-stage-title`}>
                   {focusedMeta.debater.name ||
                     `${focusedMeta.debater.side === 'for' ? 'GOVERNMENT' : 'OPPOSITION'} SPEAKER 0${focusedMeta.debater.position}`}
                 </h3>
                 <p className="stage-motion-preview">
                   {focusedMeta.debater.roleLabel} · WSD Limit:{' '}
-                  <b className="stage-limit-highlight">
-                    {focusedMeta.debater.speechMode === 'reply' ? '04:00 (REPLY SPEECH)' : '08:00 (STANDARD SPEECH)'}
-                  </b>
+                  {focusedMeta.debater.speechMode === 'reply' ? '04:00' : '08:00'}
                 </p>
 
                 <div className="stage-switcher" role="group" aria-label="Switch speaker in section">
@@ -1025,12 +1038,9 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
                             type="button"
                             className={`stage-switch-pill ${d.id === focusedMeta.debater.id ? 'is-current' : ''} ${dTimer.running ? 'is-running' : ''} ${dOver ? 'is-over' : ''}`}
                             onClick={() => setFocusedSpeakerId(d.id)}
-                            aria-label={`${d.name || `Government Speaker 0${d.position}`} timer: ${formatTime(dMs)} (${d.speechMode})`}
+                            aria-label={`${d.name || `Government Speaker 0${d.position}`} timer: ${formatTime(dMs)}`}
                           >
                             <span className="pill-pos">GOV 0{d.position}</span>
-                            <span className={`pill-mode-tag ${d.speechMode === 'reply' ? 'is-reply' : ''}`}>
-                              {d.speechMode === 'reply' ? '4M' : '8M'}
-                            </span>
                             <b className="pill-time">{formatTime(dMs)}</b>
                           </button>
                         );
@@ -1049,12 +1059,9 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
                             type="button"
                             className={`stage-switch-pill ${d.id === focusedMeta.debater.id ? 'is-current' : ''} ${dTimer.running ? 'is-running' : ''} ${dOver ? 'is-over' : ''}`}
                             onClick={() => setFocusedSpeakerId(d.id)}
-                            aria-label={`${d.name || `Opposition Speaker 0${d.position}`} timer: ${formatTime(dMs)} (${d.speechMode})`}
+                            aria-label={`${d.name || `Opposition Speaker 0${d.position}`} timer: ${formatTime(dMs)}`}
                           >
                             <span className="pill-pos">OPP 0{d.position}</span>
-                            <span className={`pill-mode-tag ${d.speechMode === 'reply' ? 'is-reply' : ''}`}>
-                              {d.speechMode === 'reply' ? '4M' : '8M'}
-                            </span>
                             <b className="pill-time">{formatTime(dMs)}</b>
                           </button>
                         );

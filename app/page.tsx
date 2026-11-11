@@ -238,41 +238,19 @@ export default function Home() {
                   </div>
 
                   <div className="roadmap-spine">
-                    {sec.teams.government.members.map((debater, idx) => (
-                      <React.Fragment key={debater.order}>
-                        <div className="roadmap-node" data-speaker-step={debater.order}>
-                          <div className="roadmap-avatar">
-                            <Mic2 size={18} aria-hidden="true" />
-                          </div>
-                          <div className="roadmap-content">
-                            <div className="flex items-center justify-between">
-                              <span className="roadmap-name">{debater.name}</span>
-                              <span className="roadmap-step-tag">SPEAKER 0{debater.order}</span>
-                            </div>
-                            <span className="roadmap-role block">{debater.role}</span>
-                          </div>
+                    {sec.teams.government.members.map((debater) => (
+                      <div key={debater.order} className="roadmap-node" data-speaker-step={debater.order}>
+                        <div className="roadmap-avatar">
+                          <Mic2 size={18} aria-hidden="true" />
                         </div>
-
-                        {idx < 2 && (
-                          <div className="roadmap-flow-segment" data-flow-step={idx + 1}>
-                            <svg
-                              className="roadmap-flow-svg"
-                              viewBox="0 0 40 34"
-                              preserveAspectRatio="none"
-                              aria-hidden="true"
-                            >
-                              <path
-                                d={
-                                  idx === 0
-                                    ? 'M 24,0 C 38,11 10,23 24,34'
-                                    : 'M 24,0 C 10,11 38,23 24,34'
-                                }
-                                className={`roadmap-flow-path roadmap-flow-path--${idx + 1}`}
-                              />
-                            </svg>
+                        <div className="roadmap-content">
+                          <div className="flex items-center justify-between">
+                            <span className="roadmap-name">{debater.name}</span>
+                            <span className="roadmap-step-tag">SPEAKER 0{debater.order}</span>
                           </div>
-                        )}
-                      </React.Fragment>
+                          <span className="roadmap-role block">{debater.role}</span>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -285,41 +263,19 @@ export default function Home() {
                   </div>
 
                   <div className="roadmap-spine">
-                    {sec.teams.opposition.members.map((debater, idx) => (
-                      <React.Fragment key={debater.order}>
-                        <div className="roadmap-node" data-speaker-step={debater.order}>
-                          <div className="roadmap-avatar">
-                            <Mic2 size={18} aria-hidden="true" />
-                          </div>
-                          <div className="roadmap-content">
-                            <div className="flex items-center justify-between">
-                              <span className="roadmap-name">{debater.name}</span>
-                              <span className="roadmap-step-tag">SPEAKER 0{debater.order}</span>
-                            </div>
-                            <span className="roadmap-role block">{debater.role}</span>
-                          </div>
+                    {sec.teams.opposition.members.map((debater) => (
+                      <div key={debater.order} className="roadmap-node" data-speaker-step={debater.order}>
+                        <div className="roadmap-avatar">
+                          <Mic2 size={18} aria-hidden="true" />
                         </div>
-
-                        {idx < 2 && (
-                          <div className="roadmap-flow-segment" data-flow-step={idx + 1}>
-                            <svg
-                              className="roadmap-flow-svg"
-                              viewBox="0 0 40 34"
-                              preserveAspectRatio="none"
-                              aria-hidden="true"
-                            >
-                              <path
-                                d={
-                                  idx === 0
-                                    ? 'M 24,0 C 10,11 38,23 24,34'
-                                    : 'M 24,0 C 38,11 10,23 24,34'
-                                }
-                                className={`roadmap-flow-path roadmap-flow-path--${idx + 1}`}
-                              />
-                            </svg>
+                        <div className="roadmap-content">
+                          <div className="flex items-center justify-between">
+                            <span className="roadmap-name">{debater.name}</span>
+                            <span className="roadmap-step-tag">SPEAKER 0{debater.order}</span>
                           </div>
-                        )}
-                      </React.Fragment>
+                          <span className="roadmap-role block">{debater.role}</span>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -614,9 +570,9 @@ export default function Home() {
               <Image
                 src={OFFICIAL_LOGOS.asdWhite}
                 alt="All-Star Debate IV"
-                width={88}
-                height={62}
-                className="h-14 sm:h-16 md:h-20 w-auto object-contain"
+                width={120}
+                height={84}
+                className="h-16 sm:h-20 md:h-24 w-auto object-contain"
               />
             </Link>
             <p className="footer-brand-bio">

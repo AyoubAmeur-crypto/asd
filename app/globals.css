@@ -43,13 +43,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Background scroll lock when modal dialog is active */
-html:has(dialog[open].asd-dialog--stage),
+/* Background scroll lock when modal dialog is active (never set height:100% or overflow:hidden on html to prevent scroll-to-top jump) */
 body:has(dialog[open].asd-dialog--stage) {
   overflow: hidden !important;
   touch-action: none !important;
   overscroll-behavior: none !important;
-  height: 100% !important;
 }
 
 /* Base interactive elements */
@@ -808,6 +806,7 @@ a {
   position: relative;
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
 
 .roadmap-flow-segment {
@@ -1430,7 +1429,7 @@ a {
 
 .footer-massive-hero {
   font-family: var(--font-anton), sans-serif;
-  font-size: clamp(48px, 22vw, 360px);
+  font-size: clamp(84px, 26vw, 440px);
   line-height: 0.82;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -1438,7 +1437,7 @@ a {
   white-space: nowrap;
   width: 100%;
   user-select: none;
-  background: linear-gradient(180deg, #EAE6DD 0%, rgba(234, 230, 221, 0.35) 60%, #0B0B0C 100%);
+  background: linear-gradient(180deg, #F6F0E5 0%, rgba(246, 240, 229, 0.35) 60%, #0B0B0C 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -1489,7 +1488,7 @@ a {
 
 .live-dot.is-overtime {
   background: var(--overtime-red);
-  box-shadow: 0 0 16px var(--overtime-red);
+  box-shadow: none !important;
 }
 
 .console-telemetry-pills {
@@ -1526,16 +1525,8 @@ a {
 .telemetry-pill.is-overtime {
   border-color: var(--overtime-red);
   color: var(--overtime-red);
-  animation: pulse-border 1.5s infinite;
-}
-
-@keyframes pulse-border {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(224, 68, 62, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 12px 2px rgba(224, 68, 62, 0.6);
-  }
+  animation: none !important;
+  box-shadow: none !important;
 }
 
 .console-head {
@@ -2837,10 +2828,12 @@ dialog.asd-dialog--confirm::backdrop {
 
 /* Stage Modal (Focus / Projection) */
 .asd-dialog--stage {
+  position: fixed !important;
+  inset: 0 !important;
+  margin: auto !important;
   max-width: min(960px, 92vw);
   width: 92%;
   max-height: min(88vh, 640px);
-  margin: auto;
   border: 1px solid var(--line-strong);
   background: #0B0B0C;
   color: var(--cream-white);
@@ -2964,7 +2957,8 @@ dialog.asd-dialog--confirm::backdrop {
   font-weight: 700;
   letter-spacing: 0.14em;
   color: var(--amber-primary);
-  margin: 0;
+  margin: 0 0 8px;
+  display: inline-block;
 }
 
 .stage-mode-toggle-btn {
@@ -3797,7 +3791,7 @@ dialog.asd-dialog--confirm::backdrop {
   }
 
   .footer-massive-hero {
-    font-size: clamp(42px, 20vw, 360px) !important;
+    font-size: clamp(64px, 24vw, 160px) !important;
   }
 
   /* ========================================================
@@ -4083,7 +4077,7 @@ dialog.asd-dialog--confirm::backdrop {
   }
 
   .footer-massive-hero {
-    font-size: 38px !important;
+    font-size: 58px !important;
   }
 
   .roadmap-name {
