@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   ArrowRight,
+  Clock,
   Clock3,
   Maximize2,
   Minimize2,
@@ -431,6 +432,23 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
     );
   }
 
+  function handleToggleAllSpeechModes(sectionId: LanguageId) {
+    setSections((prev) =>
+      prev.map((sec) => {
+        if (sec.id !== sectionId) return sec;
+        const allReply = sec.debaters.every((d) => d.speechMode === 'reply');
+        const nextMode: SpeechMode = allReply ? 'standard' : 'reply';
+        return {
+          ...sec,
+          debaters: sec.debaters.map((d) => ({
+            ...d,
+            speechMode: nextMode,
+          })),
+        };
+      })
+    );
+  }
+
   function openStageProjection(debaterId?: string) {
     const fallbackId =
       debaterId ??
@@ -576,6 +594,20 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
               >
                 <Pause size={15} aria-hidden="true" />
                 <span>PAUSE ALL</span>
+              </button>
+
+              <button
+                type="button"
+                className={`toolbar-btn ${selectedSection.debaters.every((d) => d.speechMode === 'reply') ? 'is-active' : ''}`}
+                onClick={() => handleToggleAllSpeechModes(active)}
+                title="Toggle all debaters in this section between 8M Standard and 4M Reply"
+              >
+                <Clock size={14} aria-hidden="true" />
+                <span>
+                  {selectedSection.debaters.every((d) => d.speechMode === 'reply')
+                    ? 'ALL 8M STANDARD'
+                    : 'ALL 4M (REPLY)'}
+                </span>
               </button>
 
               {!isStandalonePage && (
@@ -927,12 +959,21 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
                 <span className="stage-pill">
                   {focusedMeta.langMeta.order} // {focusedMeta.langMeta.label.toUpperCase()} ({focusedMeta.langMeta.native})
                 </span>
-                <span className="stage-pill stage-pill--side">
+                <button
+                  type="button"
+                  className={`stage-pill stage-pill--mode-toggle ${focusedMeta.debater.speechMode === 'reply' ? 'is-reply' : ''}`}
+                  onClick={() => handleToggleSpeechMode(active, focusedMeta.debater.id)}
+                  title="Click to toggle speech mode (8M Standard / 4M Reply)"
+                >
                   {focusedMeta.debater.side === 'for'
                     ? '+ GOVERNMENT'
                     : '− OPPOSITION'}{' '}
-                  · SPEAKER 0{focusedMeta.debater.position} ({focusedMeta.debater.speechMode.toUpperCase()})
-                </span>
+                  · SPEAKER 0{focusedMeta.debater.position} ·{' '}
+                  <span className="stage-pill-mode-label">
+                    {focusedMeta.debater.speechMode === 'reply' ? 'REPLY (4M)' : 'STANDARD (8M)'}
+                  </span>{' '}
+                  ⇄
+                </button>
               </div>
               <button
                 type="button"
@@ -946,14 +987,28 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
 
             <div className="stage-modal-body">
               <div className="stage-speaker-info">
-                <span className="stage-kicker">ACTIVE PODIUM CHRONOGRAPH</span>
+                <div className="stage-kicker-row">
+                  <span className="stage-kicker">ACTIVE PODIUM CHRONOGRAPH</span>
+                  <button
+                    type="button"
+                    className={`stage-mode-toggle-btn ${focusedMeta.debater.speechMode === 'reply' ? 'is-reply' : ''}`}
+                    onClick={() => handleToggleSpeechMode(active, focusedMeta.debater.id)}
+                    title="Click to toggle between 8M Standard Speech and 4M Reply Speech"
+                  >
+                    <Clock size={11} aria-hidden="true" />
+                    <span>{focusedMeta.debater.speechMode === 'reply' ? 'REPLY (4M)' : 'STANDARD (8M)'}</span>
+                    <span className="stage-mode-arrow">⇄</span>
+                  </button>
+                </div>
                 <h3 id={`${baseId}-stage-title`}>
                   {focusedMeta.debater.name ||
                     `${focusedMeta.debater.side === 'for' ? 'GOVERNMENT' : 'OPPOSITION'} SPEAKER 0${focusedMeta.debater.position}`}
                 </h3>
                 <p className="stage-motion-preview">
                   {focusedMeta.debater.roleLabel} · WSD Limit:{' '}
-                  {focusedMeta.debater.speechMode === 'reply' ? '04:00' : '08:00'}
+                  <b className="stage-limit-highlight">
+                    {focusedMeta.debater.speechMode === 'reply' ? '04:00 (REPLY SPEECH)' : '08:00 (STANDARD SPEECH)'}
+                  </b>
                 </p>
 
                 <div className="stage-switcher" role="group" aria-label="Switch speaker in section">
@@ -970,9 +1025,12 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
                             type="button"
                             className={`stage-switch-pill ${d.id === focusedMeta.debater.id ? 'is-current' : ''} ${dTimer.running ? 'is-running' : ''} ${dOver ? 'is-over' : ''}`}
                             onClick={() => setFocusedSpeakerId(d.id)}
-                            aria-label={`${d.name || `Government Speaker 0${d.position}`} timer: ${formatTime(dMs)}`}
+                            aria-label={`${d.name || `Government Speaker 0${d.position}`} timer: ${formatTime(dMs)} (${d.speechMode})`}
                           >
                             <span className="pill-pos">GOV 0{d.position}</span>
+                            <span className={`pill-mode-tag ${d.speechMode === 'reply' ? 'is-reply' : ''}`}>
+                              {d.speechMode === 'reply' ? '4M' : '8M'}
+                            </span>
                             <b className="pill-time">{formatTime(dMs)}</b>
                           </button>
                         );
@@ -991,9 +1049,12 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
                             type="button"
                             className={`stage-switch-pill ${d.id === focusedMeta.debater.id ? 'is-current' : ''} ${dTimer.running ? 'is-running' : ''} ${dOver ? 'is-over' : ''}`}
                             onClick={() => setFocusedSpeakerId(d.id)}
-                            aria-label={`${d.name || `Opposition Speaker 0${d.position}`} timer: ${formatTime(dMs)}`}
+                            aria-label={`${d.name || `Opposition Speaker 0${d.position}`} timer: ${formatTime(dMs)} (${d.speechMode})`}
                           >
                             <span className="pill-pos">OPP 0{d.position}</span>
+                            <span className={`pill-mode-tag ${d.speechMode === 'reply' ? 'is-reply' : ''}`}>
+                              {d.speechMode === 'reply' ? '4M' : '8M'}
+                            </span>
                             <b className="pill-time">{formatTime(dMs)}</b>
                           </button>
                         );
