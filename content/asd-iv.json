@@ -1,0 +1,164 @@
+{
+  "event": {
+    "name": "ALL-STAR DEBATE IV",
+    "shortName": "ASD IV",
+    "edition": "IV",
+    "year": "2026",
+    "organizer": "The Great Debaters ENSA Fès",
+    "organizerShort": "TGD ENSA Fès",
+    "format": "World Schools Debate (WSD)",
+    "nature": "National Moroccan university debate competition gathering elite debaters from universities and grandes écoles.",
+    "theme": {
+      "title": "THE DECEPTION OF TRUTH: WE ARE ALL FOOLS",
+      "subtitle": "Truth, Illusion, and the Architecture of Certainty",
+      "description": "This fourth edition examines whether humanity prefers comforting illusions over difficult truths. Exploring cognitive biases, collective mythologies, perception traps, and the imperative of critical thinking in modern society.",
+      "pillars": [
+        {
+          "keyword": "TRUTH",
+          "definition": "The fragile, objective reality beneath institutional narratives and collective comfort.",
+          "arabic": "الحقيقة"
+        },
+        {
+          "keyword": "ILLUSION",
+          "definition": "The constructed certainties and comforting fallacies embraced by societies and individuals.",
+          "arabic": "الوهم"
+        },
+        {
+          "keyword": "PERCEPTION",
+          "definition": "The cognitive lens through which human biases transform facts into conflicting worldviews.",
+          "arabic": "الإدراك"
+        }
+      ]
+    },
+    "tagline": "18 voices. 3 languages. One stage where every certainty is challenged.",
+    "frenchDescription": "Une compétition nationale d'élite réunissant les meilleurs orateurs universitaires du Maroc autour de l'éloquence, de la confrontation intellectuelle et de l'esprit critique.",
+    "arabicDescription": "المناظرة الكبرى التي تجمع نخبة الخطباء الجامعيين في المغرب حول الفكر النقدي، وقوة الحجة، وفن الإقناع.",
+    "closingPhrase": "MAY THE BEST WIN",
+    "stats": [
+      { "value": "18", "label": "CONFIRMED DEBATERS" },
+      { "value": "03", "label": "LINGUISTIC ARENAS" },
+      { "value": "08", "label": "MINUTES PER SPEECH" },
+      { "value": "04", "label": "EDITIONS OF EXCELLENCE" }
+    ]
+  },
+  "sections": [
+    {
+      "id": "english",
+      "order": "01",
+      "language": "English",
+      "native": "English",
+      "dir": "ltr",
+      "badge": "VALUE MOTION",
+      "motion": "TH, as the last generation with access to humanity's unaltered history, would erase it and allow future generations to construct their own understanding of the past.",
+      "note": "This motion is to be treated as a value motion.",
+      "context": "Exploring historical determinism, collective memory, trauma transmission, and whether historical blank slates liberate or doom future generations.",
+      "teams": {
+        "government": {
+          "title": "GOVERNMENT",
+          "subtitle": "PROPOSITION",
+          "members": [
+            { "order": 1, "name": "Lina Detsouli", "role": "1st Proposition Speaker" },
+            { "order": 2, "name": "Ibtihal Toufik", "role": "2nd Proposition Speaker" },
+            { "order": 3, "name": "Yassmine Abouali", "role": "3rd Proposition Speaker" }
+          ]
+        },
+        "opposition": {
+          "title": "OPPOSITION",
+          "subtitle": "OPPOSITION",
+          "members": [
+            { "order": 1, "name": "Rhita Tarhzouti", "role": "1st Opposition Speaker" },
+            { "order": 2, "name": "Mohammad Mahjoubi", "role": "2nd Opposition Speaker" },
+            { "order": 3, "name": "Mariam Chihabi", "role": "3rd Opposition Speaker" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "french",
+      "order": "02",
+      "language": "Français",
+      "native": "Français",
+      "dir": "ltr",
+      "badge": "MOTION DE VALEUR",
+      "motion": "Cette assemblée croit que les sociétés ont davantage besoin de récits communs que de vérités communes.",
+      "note": "Débat en langue française sur la cohésion sociale et les mythes fondateurs.",
+      "context": "Interrogeant la tension entre mythe rassembleur et vérité brute : la cohésion des peuples repose-t-elle sur des fictions partagées ou sur la lucidité faktuelle ?",
+      "teams": {
+        "government": {
+          "title": "GOUVERNEMENT",
+          "subtitle": "PROPOSITION",
+          "members": [
+            { "order": 1, "name": "Yousra Badaoui", "role": "1ère Oratrice du Gouvernement" },
+            { "order": 2, "name": "Mehdi Dinari", "role": "2ème Orateur du Gouvernement" },
+            { "order": 3, "name": "Aya Taghzouti", "role": "3ème Oratrice du Gouvernement" }
+          ]
+        },
+        "opposition": {
+          "title": "OPPOSITION",
+          "subtitle": "OPPOSITION",
+          "members": [
+            { "order": 1, "name": "Imane Gouzi", "role": "1ère Oratrice de l'Opposition" },
+            { "order": 2, "name": "Ismail Chakir", "role": "2ème Orateur de l'Opposition" },
+            { "order": 3, "name": "Mohammed Boukharta", "role": "3ème Orateur de l'Opposition" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "arabic",
+      "order": "03",
+      "language": "العربية",
+      "native": "العربية",
+      "dir": "rtl",
+      "badge": "قضية خلافية كبرى",
+      "motion": "يؤمن هذا المجلس بأن المجتمعات العربية تعيش في عوالم سياسية متوازية : عالم تحتفي فيه بما ترفضه في واقعها.",
+      "note": "مناظرة باللغة العربية الفصحى وفق القواعد البرلمانية العالمية.",
+      "context": "تشريح للمفارقات السياسية والاجتماعية في الفضاء العربي المعاصر بين الخطاب المعلن والممارسة المعاشة.",
+      "teams": {
+        "government": {
+          "title": "الموالاة",
+          "subtitle": "فريق الحكومة",
+          "members": [
+            { "order": 1, "name": "Abderrahmane Lefzari", "role": "المتحدث الأول للموالاة" },
+            { "order": 2, "name": "Soumaya Hte", "role": "المتحدث الثاني للموالاة" },
+            { "order": 3, "name": "Salma Alloul", "role": "المتحدث الثالث للموالاة" }
+          ]
+        },
+        "opposition": {
+          "title": "المعارضة",
+          "subtitle": "فريق المعارضة",
+          "members": [
+            { "order": 1, "name": "Riad Tajeddine", "role": "المتحدث الأول للمعارضة" },
+            { "order": 2, "name": "Douae Essat", "role": "المتحدث الثاني للمعارضة" },
+            { "order": 3, "name": "Abdelaali Mouid", "role": "المتحدث الثالث للمعارضة" }
+          ]
+        }
+      }
+    }
+  ],
+  "rules": {
+    "standardSpeech": {
+      "minutes": 8,
+      "ms": 480000,
+      "protectedStart": 60000,
+      "protectedEnd": 420000,
+      "warningMs": 300000
+    },
+    "replySpeech": {
+      "minutes": 4,
+      "ms": 240000,
+      "protected": true,
+      "warningMs": 180000
+    },
+    "poi": {
+      "bufferSeconds": 45,
+      "allowed": "Entre la 1ère et la 7ème minute (discours standard uniquement)"
+    }
+  },
+  "links": {
+    "instagram": "https://www.instagram.com/allstardebate",
+    "clubInstagram": "https://www.instagram.com/tgd_ensaf/",
+    "youtube": "https://www.youtube.com/@TheGreatDebatersENSAF"
+  }
+}
+
