@@ -3245,8 +3245,9 @@ dialog.asd-dialog--confirm::backdrop {
   }
 
   .hero-title-main {
-    font-size: clamp(34px, 10.5vw, 52px) !important;
-    line-height: 0.9 !important;
+    font-size: clamp(50px, 15vw, 76px) !important;
+    line-height: 0.86 !important;
+    letter-spacing: -0.03em !important;
   }
 
   .hero-tagline-clean {
@@ -3763,7 +3764,8 @@ dialog.asd-dialog--confirm::backdrop {
   }
 
   .hero-title-main {
-    font-size: 32px !important;
+    font-size: 46px !important;
+    line-height: 0.86 !important;
   }
 
   .theme-yellow-title {
