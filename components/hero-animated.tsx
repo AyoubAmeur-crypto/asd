@@ -45,7 +45,7 @@ export function HeroAnimated({ tagline }: HeroAnimatedProps) {
         {tagline}
       </motion.p>
 
-      {/* Editorial Tournament Overview - Rich context especially on mobile devices */}
+      {/* Editorial Tournament Overview */}
       <motion.p
         className="hero-description-editorial"
         initial={{ opacity: 0, y: 22 }}
@@ -58,37 +58,12 @@ export function HeroAnimated({ tagline }: HeroAnimatedProps) {
         and English arenas in an uncompromising dialectical arena.
       </motion.p>
 
-      {/* Micro Highlights Badges Row */}
-      <motion.div
-        className="hero-chips-row"
-        initial={{ opacity: 0, y: 22 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.44, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <div className="hero-chip">
-          <span className="hero-chip-dot" />
-          <span>18 DEBATERS</span>
-        </div>
-        <div className="hero-chip">
-          <span className="hero-chip-dot" />
-          <span>3 ARENAS (AR · FR · EN)</span>
-        </div>
-        <div className="hero-chip">
-          <span className="hero-chip-dot" />
-          <span>WSD PROTOCOLS</span>
-        </div>
-        <div className="hero-chip">
-          <span className="hero-chip-dot" />
-          <span>ENSA FÈS STAGE</span>
-        </div>
-      </motion.div>
-
       {/* Action Buttons */}
       <motion.div
         className="hero-actions-simple"
         initial={{ opacity: 0, y: 22 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.52, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.8, delay: 0.44, ease: [0.16, 1, 0.3, 1] }}
       >
         <a href="#confrontations" className="hero-btn-primary">
           <span>EXPLORE CONFRONTATIONS</span>

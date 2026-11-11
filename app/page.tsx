@@ -454,101 +454,21 @@ export default function Home() {
             </h2>
           </div>
 
-          {/* Mobile & Small Screens: React Bits 3D Depth Carousel with High Quality */}
-          <div className="block md:hidden">
-            <DepthCarousel
-              slides={[
-                { item: GALLERY_ITEMS[1], tag: 'OFFICIAL CEREMONY', pos: 'object-[center_25%]' },
-                { item: GALLERY_ITEMS[4], tag: 'TRIUMPH & HONORS', pos: 'object-[center_10%]' },
-                { item: GALLERY_ITEMS[8], tag: 'BEST SPEAKER TROPHY', pos: 'object-[center_12%]' },
-                { item: GALLERY_ITEMS[0], tag: 'PASSION AT THE ROSTRUM', pos: 'object-[center_top]' },
-                { item: GALLERY_ITEMS[2], tag: 'THE CRITICAL BENCH', pos: 'object-[center_20%]' },
-                { item: GALLERY_ITEMS[3], tag: 'RHETORIC & CONVICTION', pos: 'object-[center_top]' },
-                { item: GALLERY_ITEMS[9], tag: 'COLLECTIVE EXCELLENCE', pos: 'object-[center_12%]' },
-                { item: GALLERY_ITEMS[5], tag: 'ANATOMY OF REFUTATION', pos: 'object-[center_20%]' },
-                { item: GALLERY_ITEMS[6], tag: 'STRATEGY IN REAL-TIME', pos: 'object-center' },
-                { item: GALLERY_ITEMS[14], tag: 'CELEBRATING MERIT', pos: 'object-[center_10%]' },
-              ]}
-            />
-          </div>
-
-          {/* Laptop & Desktop Screens: Clean Organized Multi-Frame & Masonry Grid */}
-          <div className="hidden md:block">
-            {/* Lead 2-up grid */}
-            <div className="gallery-lead-grid">
-              <div className="gallery-large-frame">
-                <div className="gallery-card-inner">
-                  <span className="gallery-overlay-badge">OFFICIAL CEREMONY</span>
-                  <Image
-                    src={GALLERY_ITEMS[1].src}
-                    alt={GALLERY_ITEMS[1].title}
-                    fill
-                    quality={95}
-                    sizes="(max-width: 1200px) 60vw, 800px"
-                    className="object-cover object-[center_25%]"
-                    priority
-                  />
-                  <div className="gallery-caption-bar">
-                    <strong>{GALLERY_ITEMS[1].title}</strong>
-                    <span>{GALLERY_ITEMS[1].caption}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="gallery-large-frame">
-                <div className="gallery-card-inner">
-                  <span className="gallery-overlay-badge">THE CRITICAL BENCH</span>
-                  <Image
-                    src={GALLERY_ITEMS[2].src}
-                    alt={GALLERY_ITEMS[2].title}
-                    fill
-                    quality={95}
-                    sizes="(max-width: 1200px) 40vw, 550px"
-                    className="object-cover object-[center_20%]"
-                  />
-                  <div className="gallery-caption-bar">
-                    <strong>{GALLERY_ITEMS[2].title}</strong>
-                    <span>{GALLERY_ITEMS[2].caption}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 4-column organized masonry grid */}
-            <div className="gallery-masonry-grid">
-              {[
-                { item: GALLERY_ITEMS[0], pos: 'object-[center_top]', portrait: false, tag: 'PODIUM' },
-                { item: GALLERY_ITEMS[4], pos: 'object-[center_10%]', portrait: true, tag: 'CEREMONY' },
-                { item: GALLERY_ITEMS[8], pos: 'object-[center_12%]', portrait: true, tag: 'DISTINCTION' },
-                { item: GALLERY_ITEMS[3], pos: 'object-[center_top]', portrait: false, tag: 'RHETORIC' },
-                { item: GALLERY_ITEMS[9], pos: 'object-[center_12%]', portrait: true, tag: 'TEAM' },
-                { item: GALLERY_ITEMS[5], pos: 'object-[center_20%]', portrait: false, tag: 'ATMOSPHERE' },
-                { item: GALLERY_ITEMS[6], pos: 'object-center', portrait: false, tag: 'STRATEGY' },
-                { item: GALLERY_ITEMS[14], pos: 'object-[center_10%]', portrait: true, tag: 'MERIT' },
-              ].map(({ item, pos, portrait, tag }) => (
-                <div
-                  key={item.id}
-                  className={`gallery-item-tile ${portrait ? 'gallery-item-tile--portrait' : ''}`}
-                >
-                  <div className="gallery-tile-frame">
-                    <span className="gallery-tile-badge">{tag}</span>
-                    <Image
-                      src={item.src}
-                      alt={item.title}
-                      fill
-                      quality={95}
-                      sizes="(max-width: 1200px) 25vw, 350px"
-                      className={`object-cover ${pos} transition-transform duration-500 hover:scale-105`}
-                    />
-                  </div>
-                  <div className="gallery-tile-footer">
-                    <strong>{item.title}</strong>
-                    <span>{item.caption}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* 3D Depth Carousel with Pure White Text & Zero Stroke */}
+          <DepthCarousel
+            slides={[
+              { item: GALLERY_ITEMS[1], pos: 'object-[center_25%]' },
+              { item: GALLERY_ITEMS[4], pos: 'object-[center_10%]' },
+              { item: GALLERY_ITEMS[8], pos: 'object-[center_12%]' },
+              { item: GALLERY_ITEMS[0], pos: 'object-[center_top]' },
+              { item: GALLERY_ITEMS[2], pos: 'object-[center_20%]' },
+              { item: GALLERY_ITEMS[3], pos: 'object-[center_top]' },
+              { item: GALLERY_ITEMS[9], pos: 'object-[center_12%]' },
+              { item: GALLERY_ITEMS[5], pos: 'object-[center_20%]' },
+              { item: GALLERY_ITEMS[6], pos: 'object-center' },
+              { item: GALLERY_ITEMS[14], pos: 'object-[center_10%]' },
+            ]}
+          />
         </div>
       </section>
 

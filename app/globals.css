@@ -275,60 +275,31 @@ a {
 }
 
 .hero-tagline-clean {
-  font-size: clamp(17px, 1.6vw, 21px);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(14px, 1.35vw, 17px);
   line-height: 1.5;
   color: var(--amber-primary);
-  font-weight: 600;
-  max-width: 540px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  max-width: 580px;
   margin: 0 0 16px;
+  text-transform: uppercase;
 }
 
 .hero-description-editorial {
-  font-size: clamp(14px, 1.3vw, 16.5px);
-  line-height: 1.65;
-  color: var(--cream-white);
-  opacity: 0.88;
-  max-width: 580px;
-  margin: 0 0 24px;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(12.5px, 1.15vw, 14.5px);
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: #D6D2C8;
+  opacity: 0.95;
+  max-width: 620px;
+  margin: 0 0 34px;
 }
 
 .hero-description-editorial strong {
-  color: var(--amber-primary);
-}
-
-.hero-chips-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  align-items: center;
-  margin-bottom: 34px;
-}
-
-.hero-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--subtle-line);
-  padding: 5px 12px;
-  font-family: var(--font-mono), monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--muted-gray);
-  transition: all 0.2s ease;
-}
-
-.hero-chip:hover {
-  border-color: var(--amber-primary);
   color: var(--cream-white);
-}
-
-.hero-chip-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--amber-primary);
+  font-weight: 700;
 }
 
 .hero-actions-simple {
@@ -915,151 +886,7 @@ a {
 
 /* ========================================================
    SECTION 05: ARCHIVE & MOMENTS GALLERY ("THE ARENA IN MOTION")
-   ======================================================== */
-
-/* Organized Laptop Grid Layout */
-.gallery-lead-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 28px;
-  margin-bottom: 28px;
-  margin-top: 40px;
-}
-
-.gallery-large-frame {
-  position: relative;
-  aspect-ratio: 16/10;
-  border: 1px solid var(--line-strong);
-  overflow: hidden;
-  background: var(--bg-secondary);
-  transition: transform 0.25s ease, border-color 0.25s ease;
-}
-
-.gallery-large-frame:hover {
-  transform: translateY(-3px);
-  border-color: var(--amber-primary);
-}
-
-.gallery-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.gallery-overlay-badge {
-  position: absolute;
-  top: 18px;
-  left: 18px;
-  z-index: 10;
-  background: rgba(11, 11, 12, 0.88);
-  border: 1px solid var(--amber-primary);
-  color: var(--amber-primary);
-  font-family: var(--font-mono), monospace;
-  font-size: 10.5px;
-  font-weight: 800;
-  padding: 5px 12px;
-  letter-spacing: 0.12em;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-
-.gallery-caption-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  background: linear-gradient(180deg, transparent 0%, rgba(11, 11, 12, 0.96) 50%);
-  padding: 34px 24px 20px;
-}
-
-.gallery-caption-bar strong {
-  display: block;
-  font-family: var(--font-anton), sans-serif;
-  font-size: 20px;
-  letter-spacing: 0.02em;
-  color: var(--cream-white);
-  text-transform: uppercase;
-}
-
-.gallery-caption-bar span {
-  display: block;
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--muted-gray);
-  margin-top: 4px;
-}
-
-.gallery-masonry-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-}
-
-.gallery-item-tile {
-  border: 1px solid var(--line-strong);
-  background: var(--bg-secondary);
-  overflow: hidden;
-  transition: transform 0.25s ease, border-color 0.25s ease;
-}
-
-.gallery-item-tile:hover {
-  transform: translateY(-3px);
-  border-color: var(--amber-primary);
-}
-
-.gallery-tile-frame {
-  position: relative;
-  aspect-ratio: 4/3;
-  overflow: hidden;
-  background: #000;
-}
-
-.gallery-item-tile--portrait .gallery-tile-frame {
-  aspect-ratio: 3/4;
-}
-
-.gallery-tile-badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 5;
-  background: rgba(11, 11, 12, 0.85);
-  border: 1px solid rgba(240, 165, 38, 0.7);
-  color: var(--amber-primary);
-  font-family: var(--font-mono), monospace;
-  font-size: 9px;
-  font-weight: 800;
-  padding: 3px 8px;
-  letter-spacing: 0.1em;
-}
-
-.gallery-tile-footer {
-  padding: 14px 18px;
-  border-top: 1px solid var(--subtle-line);
-}
-
-.gallery-tile-footer strong {
-  display: block;
-  font-family: var(--font-anton), sans-serif;
-  font-size: 15px;
-  letter-spacing: 0.02em;
-  color: var(--cream-white);
-  text-transform: uppercase;
-  line-height: 1.2;
-}
-
-.gallery-tile-footer span {
-  display: block;
-  font-family: var(--font-mono), monospace;
-  font-size: 10px;
-  color: var(--muted-gray);
-  margin-top: 4px;
-  line-height: 1.4;
-}
-
-/* ========================================================
-   REACT BITS 3D DEPTH CAROUSEL (MOBILE PHONES)
+   3D DEPTH CAROUSEL (DESKTOP & MOBILE)
    ======================================================== */
 
 .depth-carousel-wrapper {
@@ -1068,13 +895,18 @@ a {
   padding: 10px 0 20px;
   overflow: hidden;
   margin-top: 20px;
+  cursor: grab;
+}
+
+.depth-carousel-wrapper:active {
+  cursor: grabbing;
 }
 
 .depth-carousel-stage {
   position: relative;
   width: 100%;
-  height: 440px;
-  perspective: 1100px;
+  height: 520px;
+  perspective: 1200px;
   transform-style: preserve-3d;
   display: flex;
   align-items: center;
@@ -1083,151 +915,143 @@ a {
 
 .depth-carousel-card {
   position: absolute;
-  width: min(84vw, 360px);
-  height: 400px;
+  width: min(72vw, 760px);
+  height: 470px;
   transform-origin: center center;
   transform-style: preserve-3d;
-  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.42s ease,
-              filter 0.42s ease;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.45s ease,
+              filter 0.45s ease;
   will-change: transform, opacity;
   user-select: none;
   cursor: pointer;
 }
 
+/* Image frame: strictly NO stroke, NO gray overlay */
 .depth-card-frame {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #000;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75);
+  background: #000000 !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
 }
 
 .depth-carousel-card.is-active .depth-card-frame {
-  border: 1.5px solid var(--amber-primary);
-  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.9), 0 0 26px rgba(240, 165, 38, 0.22);
+  border: none !important;
+  outline: none !important;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.95);
 }
 
-.depth-card-badge {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  z-index: 10;
-  background: rgba(11, 11, 12, 0.88);
-  border: 1px solid var(--amber-primary);
-  color: var(--amber-primary);
-  font-family: var(--font-mono), monospace;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  padding: 4px 10px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-
+/* Bottom vignette with pure white text only */
 .depth-card-info {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 10;
-  background: linear-gradient(180deg, transparent 0%, rgba(11, 11, 12, 0.96) 55%);
-  padding: 35px 18px 16px;
+  background: linear-gradient(180deg, transparent 0%, rgba(11, 11, 12, 0.95) 55%);
+  padding: 45px 28px 24px;
 }
 
 .depth-card-title {
   font-family: var(--font-anton), sans-serif;
-  font-size: 19px;
-  color: var(--cream-white);
+  font-size: clamp(20px, 2.4vw, 27px);
+  color: #FFFFFF !important;
   letter-spacing: 0.02em;
   line-height: 1.15;
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   text-transform: uppercase;
 }
 
 .depth-card-caption {
-  font-size: 12px;
-  line-height: 1.45;
-  color: var(--muted-gray);
+  font-size: 14px;
+  line-height: 1.55;
+  color: #EDE8DE !important;
   margin: 0;
+  max-width: 680px;
 }
 
+/* Navigation - Just The Dots */
 .depth-carousel-nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  margin-top: 16px;
-  padding: 0 6px;
-}
-
-.depth-nav-btn {
-  display: inline-flex;
-  align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--subtle-line);
-  color: var(--cream-white);
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.depth-nav-btn:hover,
-.depth-nav-btn:active {
-  border-color: var(--amber-primary);
-  color: var(--amber-primary);
-  background: rgba(240, 165, 38, 0.08);
-}
-
-.depth-nav-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.depth-nav-counter {
-  font-family: var(--font-mono), monospace;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--amber-primary);
-  letter-spacing: 0.12em;
+  margin-top: 26px;
+  padding: 0 10px;
 }
 
 .depth-dots-row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .depth-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.28);
   border: none;
   padding: 0;
   transition: all 0.25s ease;
   cursor: pointer;
 }
 
+.depth-dot:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
 .depth-dot.is-active {
-  width: 18px;
-  border-radius: 3px;
+  width: 22px;
+  border-radius: 4px;
   background: var(--amber-primary);
-  box-shadow: 0 0 8px rgba(240, 165, 38, 0.5);
+  box-shadow: 0 0 10px rgba(240, 165, 38, 0.55);
+}
+
+@media (max-width: 900px) {
+  .depth-carousel-stage {
+    height: 440px;
+    perspective: 1000px;
+  }
+  .depth-carousel-card {
+    width: min(84vw, 540px);
+    height: 390px;
+  }
+  .depth-card-info {
+    padding: 35px 20px 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .depth-carousel-stage {
+    height: 410px;
+    perspective: 900px;
+  }
+  .depth-carousel-card {
+    width: min(86vw, 360px);
+    height: 360px;
+  }
+  .depth-card-title {
+    font-size: 18px;
+  }
+  .depth-card-caption {
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 380px) {
   .depth-carousel-stage {
-    height: 380px;
+    height: 360px;
   }
   .depth-carousel-card {
-    height: 350px;
+    width: min(88vw, 320px);
+    height: 320px;
+  }
+  .depth-card-info {
+    padding: 25px 14px 14px;
   }
 }
 
@@ -3370,25 +3194,15 @@ dialog.asd-dialog--confirm::backdrop {
   }
 
   .hero-tagline-clean {
-    font-size: 14.5px !important;
+    font-size: 13.5px !important;
     line-height: 1.45 !important;
     margin-bottom: 12px !important;
   }
 
   .hero-description-editorial {
-    font-size: 13px !important;
-    line-height: 1.55 !important;
-    margin-bottom: 16px !important;
-  }
-
-  .hero-chips-row {
-    gap: 6px 8px !important;
-    margin-bottom: 22px !important;
-  }
-
-  .hero-chip {
-    padding: 3px 8px !important;
-    font-size: 9.5px !important;
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 24px !important;
   }
 
   .hero-actions-simple {
@@ -3416,6 +3230,10 @@ dialog.asd-dialog--confirm::backdrop {
   .section-head h2 {
     font-size: clamp(28px, 8vw, 42px) !important;
     line-height: 0.96 !important;
+  }
+
+  .section-head h2 span.stroke-title {
+    -webkit-text-stroke: 0.75px var(--cream-white) !important;
   }
 
   .section-kicker {
@@ -3653,6 +3471,10 @@ dialog.asd-dialog--confirm::backdrop {
 
   .experience-white-title {
     font-size: 24px !important;
+  }
+
+  .section-head h2 span.stroke-title {
+    -webkit-text-stroke: 0.5px var(--cream-white) !important;
   }
 
   .footer-massive-hero {

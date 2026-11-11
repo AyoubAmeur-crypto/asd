@@ -2,12 +2,11 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { GalleryItem } from '@/lib/gallery';
 
 interface CarouselSlide {
   item: GalleryItem;
-  tag: string;
+  tag?: string;
   pos: string;
 }
 
@@ -17,8 +16,10 @@ interface DepthCarouselProps {
 
 export function DepthCarousel({ slides }: DepthCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const touchStartX = useRef<number | null>(null);
-  const touchDeltaX = useRef<number>(0);
+  const isDragging = useRef(false);
+  const startX = useRef<number>(0);
+  const deltaX = useRef<number>(0);
+  const lastWheelTime = useRef<number>(0);
   const total = slides.length;
 
   const next = useCallback(() => {
@@ -33,7 +34,7 @@ export function DepthCarousel({ slides }: DepthCarouselProps) {
     setActiveIndex(idx);
   }, []);
 
-  // Keyboard navigation
+  // Keyboard arrow navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') prev();
@@ -43,26 +44,66 @@ export function DepthCarousel({ slides }: DepthCarouselProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [next, prev]);
 
-  // Touch gesture handling
+  // Touch gesture handling (mobile swipe)
   const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-    touchDeltaX.current = 0;
+    startX.current = e.touches[0].clientX;
+    deltaX.current = 0;
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    touchDeltaX.current = e.touches[0].clientX - touchStartX.current;
+    deltaX.current = e.touches[0].clientX - startX.current;
   };
 
   const handleTouchEnd = () => {
-    if (touchStartX.current === null) return;
-    if (touchDeltaX.current < -40) {
+    if (deltaX.current < -35) {
       next();
-    } else if (touchDeltaX.current > 40) {
+    } else if (deltaX.current > 35) {
       prev();
     }
-    touchStartX.current = null;
-    touchDeltaX.current = 0;
+    deltaX.current = 0;
+  };
+
+  // Mouse drag handling (desktop swipe)
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDragging.current = true;
+    startX.current = e.clientX;
+    deltaX.current = 0;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current) return;
+    deltaX.current = e.clientX - startX.current;
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging.current) return;
+    if (deltaX.current < -35) {
+      next();
+    } else if (deltaX.current > 35) {
+      prev();
+    }
+    isDragging.current = false;
+    deltaX.current = 0;
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging.current) {
+      if (deltaX.current < -35) next();
+      else if (deltaX.current > 35) prev();
+      isDragging.current = false;
+      deltaX.current = 0;
+    }
+  };
+
+  // Horizontal wheel / trackpad swipe
+  const handleWheel = (e: React.WheelEvent) => {
+    const now = Date.now();
+    if (now - lastWheelTime.current < 450) return;
+    if (Math.abs(e.deltaX) > 25) {
+      if (e.deltaX > 0) next();
+      else prev();
+      lastWheelTime.current = now;
+    }
   };
 
   return (
@@ -71,6 +112,11 @@ export function DepthCarousel({ slides }: DepthCarouselProps) {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
+      onWheel={handleWheel}
       aria-roledescription="carousel"
       aria-label="ASD IV Archive Photo Depth Carousel"
     >
@@ -98,24 +144,24 @@ export function DepthCarousel({ slides }: DepthCarouselProps) {
             zIndex = 20;
             opacity = 1;
           } else if (isLeft) {
-            transformStyle = 'translate3d(-54%, 0, -85px) scale(0.85) rotateY(16deg)';
+            transformStyle = 'translate3d(-52%, 0, -90px) scale(0.85) rotateY(16deg)';
             zIndex = 10;
             opacity = 0.65;
             filter = 'brightness(0.7)';
           } else if (isRight) {
-            transformStyle = 'translate3d(54%, 0, -85px) scale(0.85) rotateY(-16deg)';
+            transformStyle = 'translate3d(52%, 0, -90px) scale(0.85) rotateY(-16deg)';
             zIndex = 10;
             opacity = 0.65;
             filter = 'brightness(0.7)';
           } else if (isFarLeft) {
-            transformStyle = 'translate3d(-92%, 0, -160px) scale(0.72) rotateY(26deg)';
+            transformStyle = 'translate3d(-90%, 0, -170px) scale(0.72) rotateY(26deg)';
             zIndex = 5;
-            opacity = 0.3;
+            opacity = 0.28;
             filter = 'brightness(0.4) blur(1px)';
           } else if (isFarRight) {
-            transformStyle = 'translate3d(92%, 0, -160px) scale(0.72) rotateY(-26deg)';
+            transformStyle = 'translate3d(90%, 0, -170px) scale(0.72) rotateY(-26deg)';
             zIndex = 5;
-            opacity = 0.3;
+            opacity = 0.28;
             filter = 'brightness(0.4) blur(1px)';
           }
 
@@ -140,24 +186,19 @@ export function DepthCarousel({ slides }: DepthCarouselProps) {
               aria-roledescription="slide"
               aria-label={`${index + 1} of ${total}: ${slide.item.title}`}
             >
+              {/* Image Frame with No Stroke and No Gray Overlay */}
               <div className="depth-card-frame">
-                {/* Ultra High Quality Next.js Image */}
                 <Image
                   src={slide.item.src}
                   alt={slide.item.title}
                   fill
                   quality={95}
-                  sizes="(max-width: 640px) 86vw, 420px"
+                  sizes="(max-width: 768px) 88vw, (max-width: 1200px) 72vw, 760px"
                   priority={Math.abs(diff) <= 1}
-                  className={`object-cover ${slide.pos} transition-transform duration-500`}
+                  className={`object-cover ${slide.pos} select-none pointer-events-none transition-transform duration-500`}
                 />
 
-                {/* Top Category Badge */}
-                <div className="depth-card-badge">
-                  <span>{slide.tag}</span>
-                </div>
-
-                {/* Bottom Vignette & Information */}
+                {/* Bottom Vignette & Information - Pure White Text Only, No Top Overlay */}
                 <div className="depth-card-info">
                   <h4 className="depth-card-title">{slide.item.title}</h4>
                   <p className="depth-card-caption">{slide.item.caption}</p>
@@ -168,42 +209,19 @@ export function DepthCarousel({ slides }: DepthCarouselProps) {
         })}
       </div>
 
-      {/* Navigation Controls Bar */}
+      {/* Navigation - Just The Dots */}
       <div className="depth-carousel-nav">
-        <button
-          type="button"
-          onClick={prev}
-          aria-label="Previous photograph"
-          className="depth-nav-btn"
-        >
-          <ChevronLeft size={20} />
-        </button>
-
-        <div className="depth-nav-indicator">
-          <span className="depth-nav-counter">
-            {String(activeIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-          </span>
-          <div className="depth-dots-row">
-            {slides.map((_, dotIdx) => (
-              <button
-                key={dotIdx}
-                type="button"
-                onClick={() => goTo(dotIdx)}
-                className={`depth-dot ${dotIdx === activeIndex ? 'is-active' : ''}`}
-                aria-label={`Go to slide ${dotIdx + 1}`}
-              />
-            ))}
-          </div>
+        <div className="depth-dots-row">
+          {slides.map((_, dotIdx) => (
+            <button
+              key={dotIdx}
+              type="button"
+              onClick={() => goTo(dotIdx)}
+              className={`depth-dot ${dotIdx === activeIndex ? 'is-active' : ''}`}
+              aria-label={`Go to slide ${dotIdx + 1}`}
+            />
+          ))}
         </div>
-
-        <button
-          type="button"
-          onClick={next}
-          aria-label="Next photograph"
-          className="depth-nav-btn"
-        >
-          <ChevronRight size={20} />
-        </button>
       </div>
     </div>
   );
