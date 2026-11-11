@@ -435,9 +435,7 @@ export default function Home() {
         </h2>
       </div>
 
-      <div id="timer">
-        <DebateConsole isStandalonePage={false} />
-      </div>
+      <DebateConsole isStandalonePage={false} />
 
       {/* 08. PREVIOUS EDITIONS & ARCHIVE GALLERY */}
       <section id="gallery" className="content-section">

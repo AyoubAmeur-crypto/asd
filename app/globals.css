@@ -26,6 +26,9 @@ html {
   scroll-behavior: smooth;
   background-color: var(--bg-primary);
   color: var(--cream-white);
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
 }
 
 body {
@@ -34,8 +37,19 @@ body {
   color: var(--cream-white);
   font-family: var(--font-dm), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Background scroll lock when modal dialog is active */
+html:has(dialog[open].asd-dialog--stage),
+body:has(dialog[open].asd-dialog--stage) {
+  overflow: hidden !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
+  height: 100% !important;
 }
 
 /* Base interactive elements */
@@ -1429,11 +1443,16 @@ a {
    DEBATE CHRONOGRAPH CONSOLE STYLING (LIVE TIMER)
    ======================================================== */
 
+#timer,
 .console-section {
   padding: 95px 0 110px;
   border-top: 1px solid var(--subtle-line);
   border-bottom: 1px solid var(--subtle-line);
   background: var(--bg-primary);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .console-section--standalone {
@@ -2420,13 +2439,15 @@ a {
   }
 }
 
-/* On Mobile, Stage Projection behaves like a true fullscreen dedicated page */
+/* On Mobile, Stage Projection behaves like a true fullscreen dedicated page covering 100% */
 @media (max-width: 768px) {
   dialog.asd-dialog--stage {
     position: fixed !important;
     inset: 0 !important;
     top: 0 !important;
     left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
     transform: none !important;
     width: 100vw !important;
     height: 100dvh !important;
@@ -2437,23 +2458,32 @@ a {
     border: none !important;
     border-radius: 0 !important;
     background: #0B0B0C !important;
-    z-index: 99999 !important;
+    z-index: 9999999 !important;
     overflow: hidden !important;
+    touch-action: none !important;
+    overscroll-behavior: contain !important;
+    box-sizing: border-box !important;
   }
 
   dialog.asd-dialog--stage::backdrop {
     background: #0B0B0C !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
   }
 
   dialog.asd-dialog--stage .stage-modal-inner {
     padding: 12px 14px 14px !important;
     height: 100dvh !important;
     min-height: 100dvh !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
     box-sizing: border-box !important;
     overflow: hidden !important;
+    touch-action: manipulation !important;
+    overscroll-behavior: contain !important;
   }
 
   dialog.asd-dialog--stage .stage-modal-header {
@@ -2605,38 +2635,64 @@ a {
 
   .controls {
     display: grid !important;
-    grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr !important;
-    gap: 6px !important;
+    grid-template-columns: 2fr 1.3fr 1fr 1fr 1fr !important;
+    gap: 4px !important;
     width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .controls button {
-    padding: 12px 4px !important;
+    padding: 9px 2px !important;
     justify-content: center !important;
     min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    font-size: 10px !important;
+    overflow: hidden !important;
   }
 
   .controls button.primary {
-    width: auto !important;
+    width: 100% !important;
+    padding-inline: 4px !important;
     order: initial !important;
+  }
+
+  .controls button.poi-btn {
+    width: 100% !important;
+    padding-inline: 4px !important;
+    font-size: 9.5px !important;
+  }
+
+  .controls button.step-btn,
+  .controls button.reset-btn {
+    min-width: 0 !important;
+    padding-inline: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100% !important;
   }
 
   .stage-modal-controls {
     display: grid !important;
-    grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr !important;
-    gap: 6px !important;
-    padding-top: 12px !important;
+    grid-template-columns: 2fr 1.3fr 1fr 1fr 1fr !important;
+    gap: 5px !important;
+    padding-top: 10px !important;
     margin-top: auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .stage-modal-controls button {
-    padding: 12px 4px !important;
+    padding: 10px 2px !important;
     justify-content: center !important;
     min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .stage-ctrl-primary {
-    width: auto !important;
+    width: 100% !important;
   }
 }
 
@@ -3448,6 +3504,255 @@ dialog.asd-dialog--confirm::backdrop {
   .footer-massive-hero {
     font-size: clamp(42px, 20vw, 360px) !important;
   }
+
+  /* ========================================================
+     TIMER / LIVE CONSOLE MOBILE OPTIMIZATION
+     ======================================================== */
+  #timer,
+  .console-section {
+    padding: 55px 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .console-kicker-bar {
+    gap: 10px !important;
+    padding-bottom: 12px !important;
+    margin-bottom: 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .console-telemetry-pills {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+    width: 100% !important;
+  }
+
+  .telemetry-pill {
+    font-size: 9px !important;
+    padding: 3px 6px !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  .console-head {
+    gap: 16px !important;
+    margin-bottom: 24px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .console-head h2 {
+    font-size: clamp(26px, 7.5vw, 36px) !important;
+    line-height: 0.95 !important;
+  }
+
+  .console-head p {
+    font-size: 13.5px !important;
+    line-height: 1.5 !important;
+    margin-bottom: 14px !important;
+  }
+
+  .console-toolbar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    width: 100% !important;
+  }
+
+  .toolbar-btn {
+    padding: 8px 10px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.06em !important;
+    gap: 5px !important;
+    flex: 1 1 calc(50% - 6px) !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .tabs {
+    grid-template-columns: 1fr !important;
+    margin-bottom: 20px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .tab-btn {
+    padding: 14px 16px !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--line-strong) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .tab-main-row strong {
+    font-size: 22px !important;
+  }
+
+  .sides {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .side {
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .side-label {
+    padding: 10px 12px !important;
+    gap: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .side-icon {
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 15px !important;
+  }
+
+  .side-heading-group h3 {
+    font-size: 18px !important;
+  }
+
+  .side-count {
+    font-size: 9.5px !important;
+  }
+
+  .speakers-list {
+    gap: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* SPEAKER CARD: Compact width and padding for complete mobile visibility without horizontal page shift */
+  .speaker {
+    padding: 14px 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .speaker-top {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-bottom: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .speaker .num {
+    font-size: 20px !important;
+    margin-top: 0 !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .speaker-input-wrap {
+    flex: 1 1 160px !important;
+    min-width: 0 !important;
+  }
+
+  .speaker-meta-line {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 4px !important;
+    margin-bottom: 2px !important;
+  }
+
+  .speaker-label {
+    font-size: 9px !important;
+    letter-spacing: 0.06em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .mode-toggle-pill {
+    font-size: 8.5px !important;
+    padding: 2px 5px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  .speaker input {
+    font-size: 13.5px !important;
+    padding: 3px 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .speaker-status-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    margin-left: auto !important;
+    flex-shrink: 0 !important;
+  }
+
+  .timer-status {
+    font-size: 9px !important;
+    padding: 2px 6px !important;
+    letter-spacing: 0.05em !important;
+    white-space: nowrap !important;
+  }
+
+  .focus-icon-btn {
+    padding: 4px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .chrono-dial {
+    width: clamp(140px, 45vw, 175px) !important;
+    height: clamp(140px, 45vw, 175px) !important;
+    margin: 6px auto !important;
+  }
+
+  .chrono-digits {
+    font-size: clamp(34px, 10vw, 42px) !important;
+  }
+
+  .chrono-tenths {
+    font-size: 13px !important;
+  }
+
+  .chrono-sub-top {
+    font-size: 8.5px !important;
+  }
+
+  .chrono-sub-bottom {
+    font-size: 9px !important;
+  }
+
+  .timer-intro-header {
+    padding-top: 50px !important;
+    padding-bottom: 15px !important;
+  }
+
+  .timer-spin-title {
+    font-size: clamp(26px, 7.5vw, 38px) !important;
+    line-height: 1.05 !important;
+  }
+
+  .timer-spin-title .spin-word-wrap {
+    margin-right: 6px !important;
+  }
 }
 
 /* Specific iPhone SE / Ultra Compact Viewport (<= 380px) */
@@ -3485,12 +3790,24 @@ dialog.asd-dialog--confirm::backdrop {
     font-size: 13px !important;
   }
 
+  .speaker {
+    padding: 10px 8px !important;
+  }
+
   .chrono-dial {
-    width: 145px !important;
-    height: 145px !important;
+    width: 135px !important;
+    height: 135px !important;
   }
 
   .chrono-digits {
-    font-size: 34px !important;
+    font-size: 30px !important;
+  }
+
+  .controls {
+    gap: 3px !important;
+  }
+
+  .controls button {
+    padding: 8px 1px !important;
   }
 }

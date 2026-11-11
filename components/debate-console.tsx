@@ -451,6 +451,45 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
     setFocusedSpeakerId(null);
   }
 
+  // Complete background scroll lock when Stage Projection modal is active
+  useEffect(() => {
+    if (!focusedSpeakerId) return;
+
+    const prevBodyOverflow = document.body.style.overflow;
+    const prevBodyTouchAction = document.body.style.touchAction;
+    const prevBodyOverscroll = document.body.style.overscrollBehavior;
+    const prevHtmlOverflow = document.documentElement.style.overflow;
+    const prevHtmlTouchAction = document.documentElement.style.touchAction;
+    const prevHtmlOverscroll = document.documentElement.style.overscrollBehavior;
+
+    document.body.style.overflow = 'hidden';
+    document.body.style.touchAction = 'none';
+    document.body.style.overscrollBehavior = 'none';
+    document.documentElement.style.overflow = 'hidden';
+    document.documentElement.style.touchAction = 'none';
+    document.documentElement.style.overscrollBehavior = 'none';
+
+    // Prevent touch scrolling bleed on mobile / iOS
+    const preventScrollBleed = (e: TouchEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target?.closest('.stage-modal-inner')) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener('touchmove', preventScrollBleed, { passive: false });
+
+    return () => {
+      document.body.style.overflow = prevBodyOverflow;
+      document.body.style.touchAction = prevBodyTouchAction;
+      document.body.style.overscrollBehavior = prevBodyOverscroll;
+      document.documentElement.style.overflow = prevHtmlOverflow;
+      document.documentElement.style.touchAction = prevHtmlTouchAction;
+      document.documentElement.style.overscrollBehavior = prevHtmlOverscroll;
+      window.removeEventListener('touchmove', preventScrollBleed);
+    };
+  }, [focusedSpeakerId]);
+
   const selectedSection = sections.find((s) => s.id === active) ?? sections[0];
   const selectedLangMeta = LANGUAGES.find((l) => l.id === active) ?? LANGUAGES[0];
 
@@ -873,6 +912,13 @@ export function DebateConsole({ isStandalonePage = false }: DebateConsoleProps) 
         {...({ closedby: 'any' } as React.DialogHTMLAttributes<HTMLDialogElement>)}
         aria-labelledby={`${baseId}-stage-title`}
         className={`asd-dialog asd-dialog--stage ${focusedOver ? 'is-overtime' : focusedWarning ? 'is-warning' : ''}`}
+        onClose={() => setFocusedSpeakerId(null)}
+        onCancel={() => setFocusedSpeakerId(null)}
+        onClick={(e) => {
+          if (e.target === stageDialogRef.current) {
+            closeStageProjection();
+          }
+        }}
       >
         {focusedMeta && (
           <div className="stage-modal-inner">
